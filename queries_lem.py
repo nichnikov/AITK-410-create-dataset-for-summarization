@@ -36,3 +36,14 @@ lem_queries_with_answers_df = pd.DataFrame(lem_queries_with_answers)
 print(lem_queries_with_answers_df)
 
 lem_queries_with_answers_df.to_csv(os.path.join("results", "lem_queries_with_answers.csv"), sep="\t", index=False)
+
+etalons_df = pd.read_csv(os.path.join("data", "queries.tsv"), sep="\t")
+etalons_tokens = [l_tx for l_tx in tokenizer(list(etalons_df["query"]))]
+lem_etalons = [" ".join(l_tx) for l_tx in etalons_tokens]
+len_etalons = [len(l_tx) for l_tx in etalons_tokens]
+
+lem_etalons_df = pd.DataFrame(lem_etalons, columns=["lem_etalon"])
+len_etalons_df = pd.DataFrame(len_etalons, columns=["len"])
+etalons_df = pd.concat([etalons_df, lem_etalons_df, len_etalons_df], axis=1)
+print(etalons_df)
+etalons_df.to_csv(os.path.join("results", "lem_etalons_with_len.csv"), sep="\t", index=False)
